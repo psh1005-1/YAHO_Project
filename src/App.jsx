@@ -1,40 +1,34 @@
-import { useRef, useState } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import watermarkImg from './assets/watermark-people.jpg'
 import Header from './components/Header'
-import HeroSection from './components/HeroSection'
-import PipelineSection from './components/PipelineSection'
-import UserProfileForm from './components/UserProfileForm'
-import RecommendationResults from './components/RecommendationResults'
-import RagExplainSection from './components/RagExplainSection'
-import TechStackSection from './components/TechStackSection'
-import { getRecommendations } from './services/recommendationApi'
+import HomePage from './pages/HomePage'
+import TechPage from './pages/TechPage'
 
 export default function App() {
-  const [status, setStatus] = useState('idle') // 'idle' | 'loading' | 'done'
-  const [recommendations, setRecommendations] = useState([])
-  const resultsRef = useRef(null)
-
-  async function handleProfileSubmit(profile) {
-    setStatus('loading')
-    resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-
-    const results = await getRecommendations(profile)
-    setRecommendations(results)
-    setStatus('done')
-  }
-
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <main>
-        <HeroSection />
-        <PipelineSection />
-        <UserProfileForm onSubmit={handleProfileSubmit} isLoading={status === 'loading'} />
-        <RecommendationResults ref={resultsRef} status={status} recommendations={recommendations} />
-        <RagExplainSection />
-        <TechStackSection />
-      </main>
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <div className="min-h-screen bg-white">
+        {/* 스크롤과 무관하게 우하단에 고정되는 워터마크 장식 이미지 */}
+        <img
+          src={watermarkImg}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none fixed -bottom-4 -right-4 z-40 w-32 opacity-[0.14] select-none sm:w-44 lg:w-56"
+          style={{
+            maskImage: 'radial-gradient(ellipse 65% 65% at 55% 40%, black 45%, transparent 100%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 65% 65% at 55% 40%, black 45%, transparent 100%)',
+          }}
+        />
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/tech" element={<TechPage />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </BrowserRouter>
   )
 }
 

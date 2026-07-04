@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { forwardRef, useImperativeHandle, useState } from 'react'
 import { SectionHeading } from './PipelineSection'
 
-const INDUSTRY_OPTIONS = [
+export const INDUSTRY_OPTIONS = [
   '핀테크',
   'IT·데이터',
   '커머스·플랫폼',
@@ -12,7 +12,7 @@ const INDUSTRY_OPTIONS = [
   '바이오헬스',
 ]
 
-const LOCATION_OPTIONS = [
+export const LOCATION_OPTIONS = [
   '부산 전체',
   '부산 사상구',
   '부산 해운대구',
@@ -36,7 +36,7 @@ const BENEFIT_OPTIONS = [
 
 const PRIORITY_OPTIONS = ['성장성', '안정성', '연봉', '워라밸', '직무적합성']
 
-const INITIAL_PROFILE = {
+export const INITIAL_PROFILE = {
   industry: INDUSTRY_OPTIONS[0],
   jobRole: '',
   skills: '',
@@ -46,8 +46,14 @@ const INITIAL_PROFILE = {
   freeText: '',
 }
 
-export default function UserProfileForm({ onSubmit, isLoading }) {
+const UserProfileForm = forwardRef(function UserProfileForm({ onSubmit, isLoading }, ref) {
   const [profile, setProfile] = useState(INITIAL_PROFILE)
+
+  useImperativeHandle(ref, () => ({
+    applyQuickValues(partial) {
+      setProfile((prev) => ({ ...prev, ...partial }))
+    },
+  }))
 
   function updateField(field, value) {
     setProfile((prev) => ({ ...prev, [field]: value }))
@@ -219,7 +225,9 @@ export default function UserProfileForm({ onSubmit, isLoading }) {
       </div>
     </section>
   )
-}
+})
+
+export default UserProfileForm
 
 function Field({ label, children }) {
   return (
