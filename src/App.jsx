@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import watermarkImg from './assets/watermark-people.jpg'
 import Header from './components/Header'
 import HomePage from './pages/HomePage'
 import TechPage from './pages/TechPage'
@@ -8,17 +7,6 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-white">
-        {/* 스크롤과 무관하게 우하단에 고정되는 워터마크 장식 이미지 */}
-        <img
-          src={watermarkImg}
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none fixed -bottom-4 -right-4 z-40 w-32 opacity-[0.14] select-none sm:w-44 lg:w-56"
-          style={{
-            maskImage: 'radial-gradient(ellipse 65% 65% at 55% 40%, black 45%, transparent 100%)',
-            WebkitMaskImage: 'radial-gradient(ellipse 65% 65% at 55% 40%, black 45%, transparent 100%)',
-          }}
-        />
         <Header />
         <main>
           <Routes>

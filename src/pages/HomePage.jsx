@@ -8,6 +8,7 @@ import { getRecommendations } from '../services/recommendationApi'
 export default function HomePage() {
   const [status, setStatus] = useState('idle') // 'idle' | 'loading' | 'done'
   const [recommendations, setRecommendations] = useState([])
+  const [burstNonce, setBurstNonce] = useState(0)
   const resultsRef = useRef(null)
   const formRef = useRef(null)
   const location = useLocation()
@@ -37,6 +38,7 @@ export default function HomePage() {
     const results = await getRecommendations(profile)
     setRecommendations(results)
     setStatus('done')
+    setBurstNonce((n) => n + 1)
   }
 
   // 히어로의 간단 검색바에서 입력한 값을 상세 폼에도 반영하고, 바로 추천을 실행한다.
@@ -52,7 +54,12 @@ export default function HomePage() {
     <>
       <HeroSection onQuickSearch={handleQuickSearch} isLoading={status === 'loading'} />
       <UserProfileForm ref={formRef} onSubmit={handleProfileSubmit} isLoading={status === 'loading'} />
-      <RecommendationResults ref={resultsRef} status={status} recommendations={recommendations} />
+      <RecommendationResults
+        ref={resultsRef}
+        status={status}
+        recommendations={recommendations}
+        burstNonce={burstNonce}
+      />
     </>
   )
 }

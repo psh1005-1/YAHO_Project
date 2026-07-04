@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import floatingPerson2Img from '../assets/floating-person-2.png'
+import floatingPerson3Img from '../assets/floating-person-3.png'
 
 const POPULAR_KEYWORDS = [
   { label: '#신입환영', partial: { jobRole: '신입 개발자' } },
@@ -47,13 +49,31 @@ export default function HeroSection({ onQuickSearch, isLoading }) {
             </span>
           </span>
 
-          <h1 className="mt-5 text-3xl font-bold leading-tight text-brand-navy sm:text-4xl md:text-5xl">
-            나에게 딱 맞는
-            <br />
-            <span className="bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
-              기업을 추천받아보세요
-            </span>
-          </h1>
+          <div className="relative">
+            <h1 className="mt-5 text-3xl font-bold leading-tight text-brand-navy sm:text-4xl md:text-5xl">
+              나에게 딱 맞는
+              <br />
+              <span className="bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
+                기업을 추천받아보세요
+              </span>
+            </h1>
+
+            {/* 둥둥 떠 있는 캐릭터 두 명: 제목 11시/1시 방향 */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -top-10 hidden w-32 sm:block lg:w-40"
+              style={{ left: '-170px' }}
+            >
+              <img src={floatingPerson3Img} alt="" className="w-full animate-float" />
+            </div>
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -top-8 hidden w-32 sm:block lg:w-40"
+              style={{ left: 'calc(100% + 30px)' }}
+            >
+              <img src={floatingPerson2Img} alt="" className="w-full animate-float" style={{ animationDelay: '1.1s' }} />
+            </div>
+          </div>
 
           <p className="mt-5 max-w-xl text-base text-slate-600 md:text-lg">
             AI가 당신의 관심사와 역량을 분석해 최적의 기업을 찾아드려요.
@@ -70,7 +90,7 @@ export default function HeroSection({ onQuickSearch, isLoading }) {
               to="/tech"
               className="rounded-full border border-blue-200 bg-white px-8 py-3.5 text-sm font-semibold text-brand-primary transition-colors hover:bg-blue-50"
             >
-              추천 흐름 보기
+              활용 기술 보기
             </Link>
           </div>
         </div>

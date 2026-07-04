@@ -1,16 +1,23 @@
 import { forwardRef } from 'react'
 import { SectionHeading } from './PipelineSection'
 import RecommendationCard from './RecommendationCard'
+import EmojiBurst from './EmojiBurst'
 
-const RecommendationResults = forwardRef(function RecommendationResults({ status, recommendations }, ref) {
+const RecommendationResults = forwardRef(function RecommendationResults(
+  { status, recommendations, burstNonce },
+  ref,
+) {
   return (
-    <section ref={ref} id="recommendation-results" className="bg-brand-bg px-5 py-20 md:py-28">
+    <section ref={ref} id="recommendation-results" className="relative bg-brand-bg px-5 py-20 md:py-28">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading
-          eyebrow="AI 추천 결과"
-          title="회원님을 위한 맞춤 기업 Top 5"
-          description="벡터 검색으로 찾은 유사 기업을 LLM이 비교 분석해 추천 이유까지 설명해드려요."
-        />
+        <div className="relative">
+          <SectionHeading
+            eyebrow="AI 추천 결과"
+            title="회원님을 위한 맞춤 기업 Top 5"
+            description="벡터 검색으로 찾은 유사 기업을 LLM이 비교 분석해 추천 이유까지 설명해드려요."
+          />
+          {status === 'done' && recommendations.length > 0 && <EmojiBurst key={burstNonce} />}
+        </div>
 
         <div className="mt-12">
           {status === 'idle' && <EmptyState />}
